@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="./image/zomatoicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Restaurant</title>
+    <style>
+       /* ---------- Reset ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ---------- Background Image ---------- */
+.backimg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+}
+
+.backimg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6);
+}
+
+/* ---------- Container ---------- */
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+/* ---------- Form Card ---------- */
+.form-box {
+    width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 35px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+    color: #fff;
+}
+
+/* Scrollbar */
+.form-box::-webkit-scrollbar {
+    width: 6px;
+}
+.form-box::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 10px;
+}
+
+/* ---------- Title ---------- */
+.form-box h2 {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.form-box p {
+    text-align: center;
+    font-size: 14px;
+    color: #ddd;
+    margin-bottom: 25px;
+}
+
+/* ---------- Inputs ---------- */
+.input-box {
+    margin-bottom: 16px;
+}
+
+.input-box label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #f1f1f1;
+}
+
+.input-box input,
+.input-box textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.input-box textarea {
+    resize: none;
+    height: 90px;
+}
+
+/* File Input */
+.input-box input[type="file"] {
+    background: #fff;
+    padding: 8px;
+}
+
+/* ---------- Button ---------- */
+button {
+    width: 100%;
+    height: 45px;
+    border: none;
+    border-radius: 25px;
+    background: #ff4f5a;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #e8434f;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 520px) {
+    .form-box {
+        width: 100%;
+        padding: 25px;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+<div class="backimg">
+    <img src="./image/background image.avif">
+</div>
+<div class="container">
+    <div class="form-box">
+        <h2>Add Your Restaurant</h2>
+        <p>Partner with us & grow your business</p>
+
+        <form>
+            <div class="input-box">
+                <label>Restaurant Name</label>
+                <input type="text" placeholder="Enter restaurant name" required>
+            </div>
+
+            <div class="input-box">
+                <label>Owner Name</label>
+                <input type="text" placeholder="Enter owner name" required>
+            </div>
+
+            <div class="input-box">
+                <label>Email Address</label>
+                <input type="email" placeholder="Enter email" required>
+            </div>
+
+            <div class="input-box">
+                <label>Phone Number</label>
+                <input type="tel" placeholder="Enter phone number" required>
+            </div>
+
+            <div class="input-box">
+                <label>City</label>
+                <input type="text" placeholder="Enter city" required>
+            </div>
+
+            <div class="input-box">
+                <label>Restaurant Address</label>
+                <textarea placeholder="Enter full address" required></textarea>
+            </div>
+
+            <div class="input-box">
+                <label>Type of Cuisine</label>
+                <input type="text" placeholder="e.g. Indian, Chinese, Italian">
+            </div>
+
+            <div class="input-box">
+                <label>Upload Restaurant Image</label>
+                <input type="file">
+            </div>
+
+            <button type="submit">Submit Restaurant</button>
+        </form>
+    </div>
+</div>
+<script>
+    const form = document.querySelector("form");
+const imageInput = document.querySelector('input[type="file"]');
+
+// Create image preview
+const preview = document.createElement("img");
+preview.style.width = "100%";
+preview.style.marginTop = "10px";
+preview.style.borderRadius = "10px";
+imageInput.after(preview);
+
+/* Image Preview */
+imageInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            preview.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+/* Form Validation */
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const inputs = form.querySelectorAll("input, textarea");
+    let valid = true;
+
+    inputs.forEach(input => {
+        if (input.hasAttribute("required") && input.value.trim() === "") {
+            input.style.borderColor = "red";
+            valid = false;
+        } else {
+            input.style.borderColor = "#ccc";
+        }
+    });
+
+    // Phone number validation
+    const phone = form.querySelector('input[type="tel"]');
+    const phoneRegex = /^[6-9]\d{9}$/;
+
+    if (!phoneRegex.test(phone.value)) {
+        alert("Please enter a valid 10-digit phone number");
+        valid = false;
+    }
+
+    // Email validation
+    const email = form.querySelector('input[type="email"]');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email.value)) {
+        alert("Please enter a valid email address");
+        valid = false;
+    }
+
+    if (valid) {
+        alert("🎉 Restaurant added successfully!");
+        form.reset();
+        preview.src = "";
+    }
+});
+
+</script>
+</body>
+</html>
