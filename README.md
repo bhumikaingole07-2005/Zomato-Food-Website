@@ -64,6 +64,6 @@ If you like this project, don't forget to **star ⭐ the repository**.
 
 **Bhumika Ingole**
 
-GitHub: https://github.com/your-username
+GitHub: https://github.com/bhumikaingole07-2005
 
-LinkedIn: https://linkedin.com/in/your-profile
+LinkedIn: https://linkedin.com/in/bhumika-ingole-83286340a
